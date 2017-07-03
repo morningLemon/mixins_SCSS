@@ -1,0 +1,240 @@
+// Positioning & Layout
+@mixin margin-bottom($margin-bottom) {
+  margin-bottom: $margin-bottom;
+}
+
+// generic transform
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+ 
+
+@mixin scale($scale) {
+   @include transform(scale($scale));
+} 
+
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+@mixin center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+@mixin center-horizontal {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+}
+
+@mixin center-vertical {
+  position: absolute;
+  //left: 50%;
+  top: 50%;
+  transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+}
+
+@mixin imgResponsive() {
+  display: inline-block;
+  max-width: 100%;
+}
+
+// Decorators
+// ________________________________________________________________________________________________________
+
+@mixin border-radius($radius, $side: all) {
+  @if $side == top {
+    -webkit-border-top-left-radius: $radius;
+    -webkit-border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    border-top-right-radius: $radius;
+  } @else if $side == bottom {
+    -webkit-border-bottom-left-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+  } @else if $side == left {
+    -webkit-border-top-left-radius: $radius;
+    -webkit-border-bottom-left-radius: $radius;
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+  } @else {
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+  }
+
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+@mixin autoBRadius() {
+  @include border-radius(3px); //all
+}
+
+// ________________________________________________________________________________________________________
+
+
+// Typography
+// ________________________________________________________________________________________________________
+
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}  
+}
+
+// ________________________________________________________________________________________________________
+
+// Animations
+// ________________________________________________________________________________________________________
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+// ________________________________________________________________________________________________________
+
+// Media Query
+@mixin ipad($orientation) {
+  @media (min-width: #{$ipad-width}) and (max-width: #{$ipad-height}) and (orientation: $orientation) {
+    @content;
+  }
+}
+
+@mixin android-tab($orientation) {
+  @media (min-width: #{$android-tablet-width}) and (max-width: #{$android-tablet-height}) and (orientation: $orientation) {
+    @content;
+  }
+}
+
+@mixin iphone6($size) {
+  @if $size == plus {
+    @media only screen and (min-device-width : 414px) and (max-device-width : 736px) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-device-width : 375px) and (max-device-width : 667px) {
+      @content;
+    }
+  }
+}
+
+@mixin iphone5 {
+  @media only screen and (min-device-width : 320px) and (max-device-width : 568px) {
+    @content;
+  }
+}
+
+@mixin smallHandHeldMax {
+  @media only screen and (max-device-width : 320px) {
+    @content;
+  }
+}
+
+@mixin handHeldMax {
+  @media only screen and (min-device-width: 360px) and (max-device-width : 640px) and (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin maxPhoneWidth {
+  @media only (max-width : 640px) {
+    @content;
+  }
+}
+
+@mixin mediumHandHeld {
+   @media only screen and (max-device-width : 375px) {
+      @content;
+    }
+}
+ 
+@mixin smallScreen {
+  @media (min-width: 641px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin desktopLarge {
+  @media (min-width: 1278px) {
+    @content;
+  }
+}
+
+@mixin desktopXLarge {
+  @media (min-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin arrow($dir) {
+  @if $dir == right {
+    content: '';
+    display: inline-block;
+    background: inherit url(../../img/arrow-down.png) 0 0 no-repeat;
+    @include rotate(-90);
+  }
+}
