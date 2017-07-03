@@ -238,3 +238,17 @@
     @include rotate(-90);
   }
 }
+
+@mixin make_progress($val,$col){
+  progress[value="#{$val}"] {
+    color: #{$col};
+    &::-webkit-progress-value { background-color:  #{$col}; }
+    &::-moz-progress-bar { background-color: #{$col}; }
+  }  
+}
+
+@mixin progress-value($value-color...) {
+    @each $progress in $value-color {
+      @include make_progress(nth($progress,1),nth($progress,2));
+    }
+}
