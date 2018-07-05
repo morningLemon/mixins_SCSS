@@ -1,2 +1,2 @@
-# mixins_SCSS
-All SCSS mixins fro development
+# Mixins_SCSS
+All SCSS mixins for development
